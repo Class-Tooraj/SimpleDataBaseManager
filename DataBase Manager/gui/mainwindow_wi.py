@@ -217,7 +217,7 @@ class MainWindow(_base, _mainWindow):
        
         for row in getAll:
             newRow: list = [QTableWidgetItem(str(it)) for it in row]
-            print(f"{newRow= }")
+            #print(f"{newRow= }")
             yield newRow
 
     def toTable(self, data) -> None:
@@ -246,23 +246,27 @@ class MainWindow(_base, _mainWindow):
 
     def openCsv(self) -> Generator:
         """
+        Open Csv Generate Row type List
         """
-        pass
+        with open(self.FILE_PATH, 'r') as f:
+            lines = f.readlines()
+            for line in lines:
+                line = line.removesuffix('\n')
+                yield line.split('\t')
 
     def tableItemCsv(self) -> Generator:
         """
+        Generate item To tableWidgetItem
         """
-        pass
-
-    def toTable(self) -> None:
-        """
-        """
-        pass
+        for line in self.openCsv():
+            newRow = [QTableWidgetItem(str(it)) for it in line]
+            yield newRow
 
     def loadCsv(self) -> None:
         """
+        Load Csv File
         """
-        pass
+        self.toTable(self.tableItemCsv())
 
     def exportSqlite(self) -> None:
         """
