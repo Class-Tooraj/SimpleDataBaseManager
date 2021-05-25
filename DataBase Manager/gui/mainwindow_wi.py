@@ -95,22 +95,22 @@ class MainWindow(_base, _mainWindow):
         self.FILE_PATH = path
         self.FORMAT = 'sqlite' if "Sqlite3" in form else 'csv'
         
-        print(f"{path= }\t{form = }")
-
-        if self.FORMAT == 'sqlite':
-            self.addTableName()
-        
-        elif self.FORMAT == 'csv':
-            self.loadCsv()
+        #print(f"{path= }\t{form = }")
+        if path != '':
+            if self.FORMAT == 'sqlite':
+                self.addTableName()
+            
+            elif self.FORMAT == 'csv':
+                self.loadCsv()
 
     def __save(self) -> None:
         """
         """
         if self.FORMAT == 'sqlite':
-            self.exportSqlite()
+            self.exportSqlite(self.FILE_PATH)
         
         elif self.FORMAT == 'csv':
-            self.exportCsv()
+            self.exportCsv(self.FILE_PATH)
 
     def __saveAs(self) -> None:
         """
@@ -120,13 +120,13 @@ class MainWindow(_base, _mainWindow):
         self.FILE_PATH = path
         self.FORMAT = 'sqlite' if "Sqlite3" in form else 'csv'
         
-        print(f"{path= }\t{form = }")
-
-        if self.FORMAT == 'sqlite':
-            self.exportSqlite()
-        
-        elif self.FORMAT == 'csv':
-            self.exportCsv()
+        #print(f"{path= }\t{form = }")
+        if path != '':
+            if self.FORMAT == 'sqlite':
+                self.exportSqlite(path)
+            
+            elif self.FORMAT == 'csv':
+                self.exportCsv(path)
 
     def __addRow(self) -> None:
         """
@@ -167,6 +167,17 @@ class MainWindow(_base, _mainWindow):
         self.SQL_TABLE_LOAD = table
        # print(f"{self.SQL_TABLE_LOAD= }")
         self.loadSqlite()
+
+    def toTable(self, data) -> None:
+        """
+        Insert Data To Table
+        """
+        #print("--> TO TABLE <--")
+        for row, item in enumerate(data):
+            self.tableWidget.insertRow(row)
+            for column, it in enumerate(item):
+                self.tableWidget.setItem(row, column, it)
+            #print(f"{row= }\t{column= }\t{item= }")
 
     def addTableName(self) -> None:
         """
@@ -220,17 +231,6 @@ class MainWindow(_base, _mainWindow):
             #print(f"{newRow= }")
             yield newRow
 
-    def toTable(self, data) -> None:
-        """
-        Insert Data To Table
-        """
-        #print("--> TO TABLE <--")
-        for row, item in enumerate(data):
-            self.tableWidget.insertRow(row)
-            for column, it in enumerate(item):
-                self.tableWidget.setItem(row, column, it)
-            #print(f"{row= }\t{column= }\t{item= }")
-
     def loadSqlite(self) -> None:
         """
         Load Data From Sqlite3 DataBase
@@ -268,12 +268,41 @@ class MainWindow(_base, _mainWindow):
         """
         self.toTable(self.tableItemCsv())
 
-    def exportSqlite(self) -> None:
+    def getFromTable(self) -> Generator:
+        """
+        """
+        column_range: int = self.tableWidget.columnCount()
+        row_range: int = self.tableWidget.rowCount()
+        
+        for row in range(0, row_range):
+            line: list = []
+            for column in range(0, column_range):
+                value = self.tableWidget.item(row, column)
+                if value in (None, "None", "NoneType"):
+                    value = ''
+                    line.append(value)
+                
+                else:
+                    line.append(value.text())
+           
+            yield line
+            line.clear()
+
+    def exportSqlite(self, file_path: str) -> None:
         """
         """
         pass
 
-    def exportCsv(self) -> None:
+    def exportCsv(self, file_path: str) -> None:
         """
         """
-        pass
+        getItem: Generator = (
+            '\t'.join(row)
+            for row in self.getFromTable()
+        )
+        with open(file_path, 'w') as f:
+            f.write('\n'.join(getItem))
+        f.close()
+        
+        del getItem, f
+
