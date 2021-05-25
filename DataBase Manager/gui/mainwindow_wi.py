@@ -3,13 +3,15 @@ __email__ = "toorajjahangiri@gmail.com"
 
 
 # IMPORT
-from os import path
 import os.path as iPath
 import sqlite3
 
+# IMPORT TYPE HINT
+from typing import Generator, Iterable
+
 # IMPORT CORE
 from PySide6.QtCore import QTimer
-from PySide6.QtWidgets import QFileDialog
+from PySide6.QtWidgets import QFileDialog, QTableWidgetItem
 
 # IMPORT UI
 try:
@@ -35,6 +37,9 @@ class MainWindow(_base, _mainWindow):
     CURRENT_PATH = locate
     FILE_PATH:str = None
     FORMAT: str = None
+
+    SQL_TABLE_LOAD: str = None
+    CONN: sqlite3.Connection = None
 
     def __init__(self, *args, **kwargs) -> None:
         """
@@ -67,6 +72,9 @@ class MainWindow(_base, _mainWindow):
         # Help Menu
         self.actionAbout.triggered.connect(self.__about)
 
+        # Signal Connect
+        self.cmb_tableName.currentTextChanged.connect(self.__tableChange)
+
     def __new(self) -> None:
         """
         """
@@ -90,10 +98,10 @@ class MainWindow(_base, _mainWindow):
         print(f"{path= }\t{form = }")
 
         if self.FORMAT == 'sqlite':
-            self.loadSqlite()
+            self.addTableName()
         
         elif self.FORMAT == 'csv':
-            self.loadSqlite()
+            self.loadCsv()
 
     def __save(self) -> None:
         """
@@ -153,13 +161,104 @@ class MainWindow(_base, _mainWindow):
         """
         self.close()
 
+    def __tableChange(self, table: str) -> None:
+        """
+        """
+        self.SQL_TABLE_LOAD = table
+       # print(f"{self.SQL_TABLE_LOAD= }")
+        self.loadSqlite()
+
+    def addTableName(self) -> None:
+        """
+        Add Table Name To ComboBox
+        """
+        self.CONN = self.db_sqlite.connect(self.FILE_PATH)
+        get_tableName = self.CONN.execute("SELECT name FROM sqlite_master WHERE type = ? AND name NOT LIKE ?", ('table', 'sqlite_%'))
+        tableName: list[str] = [i[0] for i in get_tableName]
+        
+        #print(f"{tableName= }")
+        
+        for t in tableName:
+            self.cmb_tableName.addItem(t)
+
+    def existsTable(self) -> bool:
+        """
+        If Exists Table 'True' Else 'False'
+        """
+        if self.SQL_TABLE_LOAD is not None:
+            script: str = f"SELECT count(*) FROM sqlite_master WHERE type='table' AND name='{self.SQL_TABLE_LOAD}'"
+            exists = bool(next(self.CONN.execute(script))[0])
+            #print(f"{exists= }")
+            
+            return exists
+
+    def setHeaders(self) -> None:
+        """
+        Set Table Header Lables
+        """
+        script = f"SELECT name FROM PRAGMA_TABLE_INFO('{self.SQL_TABLE_LOAD}');"
+        getLabel: list = [l[0] for l in self.CONN.execute(script)]
+        self.tableWidget.clear()
+        self.tableWidget.setColumnCount(len(getLabel))
+        self.tableWidget.setRowCount(0)
+        self.tableWidget.setHorizontalHeaderLabels(getLabel)
+        
+        #print(f"{getLabel=}")
+
+    def tableItemSql(self) -> Generator:
+        """
+        Generate New Row with TableWidgetItem From SQLITE3
+        """
+        #print("-- TABLEITEM --")
+        script: str = f"SELECT * FROM {self.SQL_TABLE_LOAD}"
+        getAll: Iterable = self.CONN.execute(script).fetchall()
+       
+        #print("GET ALL", *getAll)
+       
+        for row in getAll:
+            newRow: list = [QTableWidgetItem(str(it)) for it in row]
+            print(f"{newRow= }")
+            yield newRow
+
+    def toTable(self, data) -> None:
+        """
+        Insert Data To Table
+        """
+        #print("--> TO TABLE <--")
+        for row, item in enumerate(data):
+            self.tableWidget.insertRow(row)
+            for column, it in enumerate(item):
+                self.tableWidget.setItem(row, column, it)
+            #print(f"{row= }\t{column= }\t{item= }")
+
     def loadSqlite(self) -> None:
         """
+        Load Data From Sqlite3 DataBase
         """
-        conn = self.db_sqlite.connect(self.FILE_PATH)
-        tableName = conn.execute("SELECT name FROM sqlite_master WHERE type = ? AND name NOT LIKE ?", ('table', 'sqlite_%'))
-        print(f"{tableName= }", *tableName)
-    
+        
+        if self.existsTable():
+            self.setHeaders()
+            self.tableItemSql()
+            self.toTable(self.tableItemSql())
+
+            self.tableWidget.resizeColumnsToContents()
+            self.tableWidget.resizeRowsToContents()
+
+    def openCsv(self) -> Generator:
+        """
+        """
+        pass
+
+    def tableItemCsv(self) -> Generator:
+        """
+        """
+        pass
+
+    def toTable(self) -> None:
+        """
+        """
+        pass
+
     def loadCsv(self) -> None:
         """
         """
@@ -174,36 +273,3 @@ class MainWindow(_base, _mainWindow):
         """
         """
         pass
-
-
-
-
-# create sqlite test db
-def create_sqlite():
-    mypath = iPath.join(locate, "test.db")
-    conn = sqlite3.connect(mypath)
-    tble = (
-        "CREATE TABLE IF NOT EXISTS User (id INTEGER PRIMARY KEY, name TEXT)",
-        "CREATE TABLE IF NOT EXISTS Magic (id INTEGER PRIMARY KEY, user TEXT)",
-        )
-    for i in tble:
-        conn.execute(i)
-    
-    user = (
-        (1, "Tooraj"),
-        (2, "Iraj"),
-    )
-    magic = (
-        (1, "1234562"),
-        (2, "5556663"),
-    )
-    
-    for i in user:
-        script = "INSERT INTO User VALUES (?, ?)"
-        conn.execute(script, i)
-  
-    for i in magic:
-        script = "INSERT INTO Magic VALUES (?, ?)"
-        conn.execute(script, i)
-
-#create_sqlite()
