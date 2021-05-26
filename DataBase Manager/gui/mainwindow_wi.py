@@ -172,12 +172,20 @@ class MainWindow(_base, _mainWindow):
         """
         Insert Data To Table
         """
+        self.tableWidget.clear()
+        self.tableWidget.setRowCount(0)
         #print("--> TO TABLE <--")
+        sizeLines: list[int] = []
         for row, item in enumerate(data):
+            sizeLines.append(len(item))
             self.tableWidget.insertRow(row)
             for column, it in enumerate(item):
                 self.tableWidget.setItem(row, column, it)
             #print(f"{row= }\t{column= }\t{item= }")
+        if self.FORMAT == 'csv':
+            self.tableWidget.setColumnCount(max(sizeLines))
+        
+        del sizeLines, row, item, column, it
 
     def addTableName(self) -> None:
         """
@@ -202,6 +210,8 @@ class MainWindow(_base, _mainWindow):
             #print(f"{exists= }")
             
             return exists
+        
+        return False
 
     def setHeaders(self) -> None:
         """
@@ -209,9 +219,7 @@ class MainWindow(_base, _mainWindow):
         """
         script = f"SELECT name FROM PRAGMA_TABLE_INFO('{self.SQL_TABLE_LOAD}');"
         getLabel: list = [l[0] for l in self.CONN.execute(script)]
-        self.tableWidget.clear()
         self.tableWidget.setColumnCount(len(getLabel))
-        self.tableWidget.setRowCount(0)
         self.tableWidget.setHorizontalHeaderLabels(getLabel)
         
         #print(f"{getLabel=}")
@@ -248,11 +256,19 @@ class MainWindow(_base, _mainWindow):
         """
         Open Csv Generate Row type List
         """
-        with open(self.FILE_PATH, 'r') as f:
-            lines = f.readlines()
-            for line in lines:
-                line = line.removesuffix('\n')
-                yield line.split('\t')
+        try:
+            with open(self.FILE_PATH, 'r') as f:
+                lines = f.readlines()
+                for line in lines:
+                    line = line.removesuffix('\n')
+                    #print(f"{line=}")
+                    yield line.split('\t')
+        except (FileNotFoundError, FileExistsError, IsADirectoryError, IOError) as errfile:
+            raise errfile
+        
+        finally:
+            f.close()
+            del lines, f
 
     def tableItemCsv(self) -> Generator:
         """
@@ -268,6 +284,9 @@ class MainWindow(_base, _mainWindow):
         """
         self.toTable(self.tableItemCsv())
 
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
     def getFromTable(self) -> Generator:
         """
         """
@@ -279,8 +298,7 @@ class MainWindow(_base, _mainWindow):
             for column in range(0, column_range):
                 value = self.tableWidget.item(row, column)
                 if value in (None, "None", "NoneType"):
-                    value = ''
-                    line.append(value)
+                    line.append('')
                 
                 else:
                     line.append(value.text())
@@ -288,21 +306,56 @@ class MainWindow(_base, _mainWindow):
             yield line
             line.clear()
 
-    def exportSqlite(self, file_path: str) -> None:
+    def updateSqliteTable(self) -> None:
         """
         """
         pass
 
+    def addSqliteTable(self) -> None:
+        """
+        """
+        pass
+
+    def exportSqlite(self, file_path: str) -> None:
+        """
+        """
+        if iPath.exists(file_path):
+            if self.existsTable():
+                self.updateSqliteTable()
+            
+            else:
+                self.addSqliteTable()
+        
+        else:       # Create DataBase File
+            if self.CONN is None:
+                self.CONN = self.db_sqlite.connect(file_path)
+                
+                self.addSqliteTable()
+            
+            else:
+                self.CONN.close()
+                self.CONN = None
+                self.CONN = self.db_sqlite.connect(file_path)
+                
+                self.addSqliteTable()
+
     def exportCsv(self, file_path: str) -> None:
         """
+        Export Table To CSV File or Other File Table to 'File_Path'
         """
         getItem: Generator = (
-            '\t'.join(row)
+            '\t'.join(row).rstrip()
             for row in self.getFromTable()
         )
-        with open(file_path, 'w') as f:
-            f.write('\n'.join(getItem))
-        f.close()
+
+        try:
+            with open(file_path, 'w') as f:
+                f.write('\n'.join(getItem).rstrip())
         
-        del getItem, f
+        except (FileNotFoundError, FileExistsError, IsADirectoryError, IOError) as errfile:
+            raise errfile
+        
+        finally:
+            f.close()
+            del getItem, f
 
