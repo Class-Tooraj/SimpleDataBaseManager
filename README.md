@@ -12,6 +12,39 @@ Format Support
 
 Free & Open Source
 
+Create With **Python** Version = 3.9
+
+### Packages
+
+>**Console:**
+>
+>```
+>pip install PySide6			# Gui Core
+>pip install cx_Freeze		# Compiler if you need compile
+>```
+>
+>
+
+### Compile 
+
+>**Console:**
+>
+>```
+>python setup.py build
+>```
+
+### Run With Python
+
+>**Console:**
+>
+>```
+>python main.py
+>```
+>
+>
+
+
+
 ![image-20210529185545221](.\img_0.png) 
 
 ![image-20210529201554000](.\img_1.png)
