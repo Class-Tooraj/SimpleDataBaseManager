@@ -45,9 +45,9 @@ Create With **Python** Version = 3.9
 
 
 
-![image-20210529185545221](.\img_0.png) 
+![image-20210529185545221](https://github.com/Class-Tooraj/SimpleDataBaseManager/blob/main/img_0.png 
 
-![image-20210529201554000](.\img_1.png)
+![image-20210529201554000](https://github.com/Class-Tooraj/SimpleDataBaseManager/blob/main/img_1.png)
 
 __author__ : __Tooraj Jahangiri__
 
