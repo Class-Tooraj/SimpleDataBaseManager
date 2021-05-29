@@ -190,7 +190,12 @@ class MainWindow(_base, _mainWindow):
         
         #print(f"{path= }\t{form = }")
         if path != '':
+            self.ALL_TABLE = None
+            self.CONN = None
+            self.__algorithm()
             self.cmb_tableName.clear()
+            self.tableWidget.clear()
+            
             if self.FORMAT == 'sqlite':
                 self.addTableName()
             
