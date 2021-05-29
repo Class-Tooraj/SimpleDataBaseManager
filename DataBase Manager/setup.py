@@ -23,7 +23,7 @@ _OPTIONS: dict = {
 # SETUP CX FREEZE
 setup(
     name = "DataBaseManager",
-    version = "1.00-R",
+    version = "1.0",
     description = "Tools > Simple Tools Manager 'Sqlite3' and 'Csv' Converting 'Sqlite3' Table To 'Csv' Table.",
     author = "Tooraj Jahangiri",
     options = _OPTIONS,
