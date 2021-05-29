@@ -39,60 +39,106 @@
        <number>3</number>
       </property>
       <item>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="lbl_tableName">
-          <property name="font">
-           <font>
-            <family>Segoe UI Semibold</family>
-            <pointsize>9</pointsize>
-            <bold>false</bold>
-           </font>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="topMargin">
+           <number>3</number>
           </property>
-          <property name="text">
-           <string>Table Name</string>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lbl_tableName">
+            <property name="font">
+             <font>
+              <family>Segoe UI Semibold</family>
+              <pointsize>9</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Table Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="cmb_tableName">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="currentText">
+             <string/>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+            <property name="minimumContentsLength">
+             <number>0</number>
+            </property>
+            <property name="placeholderText">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="cmb_tableName">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+        <item>
+         <widget class="QPushButton" name="btn_newTable">
+          <property name="text">
+           <string>New Table</string>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>150</width>
-            <height>0</height>
-           </size>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_loadTable">
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
           </property>
-          <property name="editable">
-           <bool>true</bool>
+          <property name="text">
+           <string>Load Table</string>
           </property>
-          <property name="currentText">
-           <string>Table Name</string>
+          <property name="autoDefault">
+           <bool>false</bool>
           </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QComboBox::AdjustToContents</enum>
+          <property name="default">
+           <bool>false</bool>
           </property>
-          <property name="minimumContentsLength">
-           <number>0</number>
+          <property name="flat">
+           <bool>false</bool>
           </property>
-          <property name="placeholderText">
-           <string/>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_saveTable">
+          <property name="text">
+           <string>Save Table</string>
           </property>
-          <item>
-           <property name="text">
-            <string extracomment="Chose or Make Table">Table Name</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>-------------</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
@@ -109,6 +155,97 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_2">
+        <property name="topMargin">
+         <number>6</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lbl_nameAlgorithm">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="text">
+           <string>File Algorithm :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::NoTextInteraction</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="lbl_algorithm">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>75</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="text">
+           <string>None</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::NoTextInteraction</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -426,6 +563,10 @@
     <property name="title">
      <string>&amp;Table</string>
     </property>
+    <addaction name="actionNewTable"/>
+    <addaction name="actionLoadTable"/>
+    <addaction name="actionSaveTable"/>
+    <addaction name="separator"/>
     <addaction name="actionAddRow"/>
     <addaction name="actionAddColumn"/>
     <addaction name="separator"/>
@@ -509,6 +650,30 @@
   <action name="actionNew">
    <property name="text">
     <string>&amp;New</string>
+   </property>
+  </action>
+  <action name="actionLoadTable">
+   <property name="text">
+    <string>Load Table</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+L</string>
+   </property>
+  </action>
+  <action name="actionNewTable">
+   <property name="text">
+    <string>New Table</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+N</string>
+   </property>
+  </action>
+  <action name="actionSaveTable">
+   <property name="text">
+    <string>Save Table</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+S</string>
    </property>
   </action>
  </widget>

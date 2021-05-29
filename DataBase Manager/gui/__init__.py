@@ -1,0 +1,1 @@
+from . mainwindow_wi import MainWindow as DataBaseManagerGui

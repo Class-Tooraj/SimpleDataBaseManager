@@ -38,6 +38,12 @@ class Ui_MainWindow(object):
         self.actionDelColumn.setObjectName(u"actionDelColumn")
         self.actionNew = QAction(MainWindow)
         self.actionNew.setObjectName(u"actionNew")
+        self.actionLoadTable = QAction(MainWindow)
+        self.actionLoadTable.setObjectName(u"actionLoadTable")
+        self.actionNewTable = QAction(MainWindow)
+        self.actionNewTable.setObjectName(u"actionNewTable")
+        self.actionSaveTable = QAction(MainWindow)
+        self.actionSaveTable.setObjectName(u"actionSaveTable")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
@@ -48,8 +54,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setSpacing(3)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.formLayout = QFormLayout()
         self.formLayout.setObjectName(u"formLayout")
+        self.formLayout.setContentsMargins(-1, 3, -1, -1)
         self.lbl_tableName = QLabel(self.centralwidget)
         self.lbl_tableName.setObjectName(u"lbl_tableName")
         font = QFont()
@@ -57,12 +66,11 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         font.setBold(False)
         self.lbl_tableName.setFont(font)
+        self.lbl_tableName.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.formLayout.setWidget(0, QFormLayout.LabelRole, self.lbl_tableName)
 
         self.cmb_tableName = QComboBox(self.centralwidget)
-        self.cmb_tableName.addItem("")
-        self.cmb_tableName.addItem("")
         self.cmb_tableName.setObjectName(u"cmb_tableName")
         sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -70,6 +78,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.cmb_tableName.sizePolicy().hasHeightForWidth())
         self.cmb_tableName.setSizePolicy(sizePolicy)
         self.cmb_tableName.setMinimumSize(QSize(150, 0))
+        self.cmb_tableName.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.cmb_tableName.setEditable(True)
         self.cmb_tableName.setSizeAdjustPolicy(QComboBox.AdjustToContents)
         self.cmb_tableName.setMinimumContentsLength(0)
@@ -77,11 +86,84 @@ class Ui_MainWindow(object):
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.cmb_tableName)
 
 
-        self.horizontalLayout.addLayout(self.formLayout)
+        self.horizontalLayout_2.addLayout(self.formLayout)
+
+        self.line_2 = QFrame(self.centralwidget)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setFrameShadow(QFrame.Plain)
+        self.line_2.setFrameShape(QFrame.VLine)
+
+        self.horizontalLayout_2.addWidget(self.line_2)
+
+        self.btn_newTable = QPushButton(self.centralwidget)
+        self.btn_newTable.setObjectName(u"btn_newTable")
+
+        self.horizontalLayout_2.addWidget(self.btn_newTable)
+
+        self.btn_loadTable = QPushButton(self.centralwidget)
+        self.btn_loadTable.setObjectName(u"btn_loadTable")
+        self.btn_loadTable.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.btn_loadTable.setAutoDefault(False)
+        self.btn_loadTable.setFlat(False)
+
+        self.horizontalLayout_2.addWidget(self.btn_loadTable)
+
+        self.btn_saveTable = QPushButton(self.centralwidget)
+        self.btn_saveTable.setObjectName(u"btn_saveTable")
+
+        self.horizontalLayout_2.addWidget(self.btn_saveTable)
+
+
+        self.horizontalLayout.addLayout(self.horizontalLayout_2)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.formLayout_2 = QFormLayout()
+        self.formLayout_2.setObjectName(u"formLayout_2")
+        self.formLayout_2.setContentsMargins(-1, 6, -1, -1)
+        self.lbl_nameAlgorithm = QLabel(self.centralwidget)
+        self.lbl_nameAlgorithm.setObjectName(u"lbl_nameAlgorithm")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.lbl_nameAlgorithm.sizePolicy().hasHeightForWidth())
+        self.lbl_nameAlgorithm.setSizePolicy(sizePolicy1)
+        font1 = QFont()
+        font1.setBold(True)
+        self.lbl_nameAlgorithm.setFont(font1)
+        self.lbl_nameAlgorithm.setLayoutDirection(Qt.LeftToRight)
+        self.lbl_nameAlgorithm.setStyleSheet(u"")
+        self.lbl_nameAlgorithm.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.lbl_nameAlgorithm.setFrameShape(QFrame.NoFrame)
+        self.lbl_nameAlgorithm.setFrameShadow(QFrame.Plain)
+        self.lbl_nameAlgorithm.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.lbl_nameAlgorithm.setTextInteractionFlags(Qt.NoTextInteraction)
+
+        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.lbl_nameAlgorithm)
+
+        self.lbl_algorithm = QLabel(self.centralwidget)
+        self.lbl_algorithm.setObjectName(u"lbl_algorithm")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.lbl_algorithm.sizePolicy().hasHeightForWidth())
+        self.lbl_algorithm.setSizePolicy(sizePolicy2)
+        self.lbl_algorithm.setMinimumSize(QSize(75, 0))
+        self.lbl_algorithm.setFont(font1)
+        self.lbl_algorithm.setLayoutDirection(Qt.LeftToRight)
+        self.lbl_algorithm.setStyleSheet(u"")
+        self.lbl_algorithm.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.lbl_algorithm.setFrameShape(QFrame.NoFrame)
+        self.lbl_algorithm.setFrameShadow(QFrame.Plain)
+        self.lbl_algorithm.setAlignment(Qt.AlignCenter)
+        self.lbl_algorithm.setTextInteractionFlags(Qt.NoTextInteraction)
+
+        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.lbl_algorithm)
+
+
+        self.horizontalLayout.addLayout(self.formLayout_2)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -151,6 +233,10 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
+        self.menuTable.addAction(self.actionNewTable)
+        self.menuTable.addAction(self.actionLoadTable)
+        self.menuTable.addAction(self.actionSaveTable)
+        self.menuTable.addSeparator()
         self.menuTable.addAction(self.actionAddRow)
         self.menuTable.addAction(self.actionAddColumn)
         self.menuTable.addSeparator()
@@ -159,6 +245,9 @@ class Ui_MainWindow(object):
         self.menuHelp.addAction(self.actionAbout)
 
         self.retranslateUi(MainWindow)
+
+        self.btn_loadTable.setDefault(False)
+
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
@@ -193,12 +282,26 @@ class Ui_MainWindow(object):
         self.actionDelRow.setText(QCoreApplication.translate("MainWindow", u"Del Row", None))
         self.actionDelColumn.setText(QCoreApplication.translate("MainWindow", u"Del Column", None))
         self.actionNew.setText(QCoreApplication.translate("MainWindow", u"&New", None))
+        self.actionLoadTable.setText(QCoreApplication.translate("MainWindow", u"Load Table", None))
+#if QT_CONFIG(shortcut)
+        self.actionLoadTable.setShortcut(QCoreApplication.translate("MainWindow", u"Shift+L", None))
+#endif // QT_CONFIG(shortcut)
+        self.actionNewTable.setText(QCoreApplication.translate("MainWindow", u"New Table", None))
+#if QT_CONFIG(shortcut)
+        self.actionNewTable.setShortcut(QCoreApplication.translate("MainWindow", u"Shift+N", None))
+#endif // QT_CONFIG(shortcut)
+        self.actionSaveTable.setText(QCoreApplication.translate("MainWindow", u"Save Table", None))
+#if QT_CONFIG(shortcut)
+        self.actionSaveTable.setShortcut(QCoreApplication.translate("MainWindow", u"Shift+S", None))
+#endif // QT_CONFIG(shortcut)
         self.lbl_tableName.setText(QCoreApplication.translate("MainWindow", u"Table Name", None))
-        self.cmb_tableName.setItemText(0, QCoreApplication.translate("MainWindow", u"Table Name", None))
-        self.cmb_tableName.setItemText(1, QCoreApplication.translate("MainWindow", u"-------------", None))
-
-        self.cmb_tableName.setCurrentText(QCoreApplication.translate("MainWindow", u"Table Name", None))
+        self.cmb_tableName.setCurrentText("")
         self.cmb_tableName.setPlaceholderText("")
+        self.btn_newTable.setText(QCoreApplication.translate("MainWindow", u"New Table", None))
+        self.btn_loadTable.setText(QCoreApplication.translate("MainWindow", u"Load Table", None))
+        self.btn_saveTable.setText(QCoreApplication.translate("MainWindow", u"Save Table", None))
+        self.lbl_nameAlgorithm.setText(QCoreApplication.translate("MainWindow", u"File Algorithm :", None))
+        self.lbl_algorithm.setText(QCoreApplication.translate("MainWindow", u"None", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"&File", None))
         self.menuTable.setTitle(QCoreApplication.translate("MainWindow", u"&Table", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"&Help", None))

@@ -6,7 +6,7 @@ __email__ = "toorajjahangiri@gmail.com"
 import sys
 
 # IMPORT MAIN WINDOW
-from gui.mainwindow_wi import MainWindow
+from gui import DataBaseManagerGui
 
 # IMPORT GUI CORE
 from PySide6.QtWidgets import QApplication
@@ -15,7 +15,7 @@ from PySide6.QtWidgets import QApplication
 if __name__ == "__main__":
     try:
         APP = QApplication(sys.argv)
-        WIN = MainWindow()
+        WIN = DataBaseManagerGui()
         WIN.show()
         sys.exit(APP.exec_())
     except Exception as e:
